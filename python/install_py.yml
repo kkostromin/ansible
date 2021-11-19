@@ -2,7 +2,6 @@
 - name: Install python in target node with ansible
   hosts: all
   remote_user: root
-  #sudo: yes
   become: true
   gather_facts: no
   tasks:

@@ -1,15 +1,22 @@
-- hosts: all
-  become: yes
-
+---
+- name: Create db
+  hosts: all
+  become: true
+  gather_facts: no
+  
   vars_files:
     - vars.yml
 
   tasks:
-   - name: "Create table in db"
+   - name: Copy script to remote_host
+     remote_user: root
+     template: 
+      src: create_table.sql 
+      dest: /tmp/create_table.sql 
+      mode: 0755
+
+   - name: Add some data to our database
+     #port: "{{ pg_port }}"
+     #port: 5433
      become_user: postgres
-     community.postgresql.postgresql_table:
-        db: "{{ db_name }}"
-        port: "{{ pg_port }}"
-        #name: "{{ table_name }}"
-        name: LOCAL.AIRFLOW_DAGS
-        owner: "{{ db_user }}"
+     shell: psql {{ db_name }} < /tmp/create_table.sql

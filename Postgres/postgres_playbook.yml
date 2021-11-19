@@ -49,7 +49,8 @@
         name: port
         value: "{{ pg_port }}"
       register: set
-      notify: restart postgres          
+      notify: restart postgres
+      tags: change_port          
 
   handlers:
     - name: restart postgres
