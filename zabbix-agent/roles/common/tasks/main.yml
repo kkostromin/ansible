@@ -1,0 +1,81 @@
+---
+# This Playbook runs all the common plays in the deployment 
+
+  #- name: Add the intermediate certificate to certificate bundle
+  #  command: update-ca-certificates
+
+  - name: os_family
+    debug: 
+       msg : "{{ ansible_distribution_major_version }}"
+    
+  - name: Distribution
+    debug: 
+       msg : "{{ ansible_distribution }}"
+       
+
+  - name: gather os specific variables
+    include_vars: "{{ item }}"
+    with_first_found:
+        - "group_vars/{{ ansible_distribution }}.yml"
+
+  - name: Download zabbix repo package
+    become: yes
+    get_url:
+        url: "{{ zabbix_repo_url }}"
+        validate_certs: no ##!!!!!!!!!!!!!for CentOS download!!!!!!!!!!!!!!!!!!!!
+        dest: /tmp/zabbix.deb
+
+  - name: Install zabbix repo Debian
+    become: yes
+    apt:
+        deb: /tmp/zabbix.deb
+        state: present
+    when: ansible_os_family == "Debian"
+
+  - name: Install zabbix repo RedHat
+    become: yes
+    yum:
+        name: "{{ zabbix_repo_url }}"
+        validate_certs: no
+        state: present
+    when: ansible_os_family == "RedHat" 
+
+  - name: Install zabbix agent RedHat
+    become: yes
+    yum:
+        name: zabbix-agent
+        state: present
+        update_cache: yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Install zabbix agent Debian
+    become: yes
+    apt:
+        name: zabbix-agent
+        state: present
+        update_cache: yes
+    when: ansible_os_family == "Debian"
+
+  - name: Stop service zabbix-agent
+    become: yes
+    service:
+        name: zabbix-agent
+        state: stopped
+
+  - name: Remove zabbix config file
+    become: yes
+    file:
+        path: /etc/zabbix/zabbix_agentd.conf
+        state: absent
+
+  - name: Create new zabbix config file from template
+    become: yes
+    template:
+        src: "files/zabbix_agentd.conf.j2"
+        dest: "/etc/zabbix/zabbix_agentd.conf"
+
+  - name: Start service zabbix-agent
+    become: yes
+    service:
+        name: zabbix-agent
+        state: started

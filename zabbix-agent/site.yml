@@ -1,0 +1,10 @@
+---
+# This playbook install zabbix agent on remote server.
+
+- name: install zabbix-agent on remote hosts
+  hosts: all
+  become: yes
+  remote_user: root
+
+  roles:
+    - common

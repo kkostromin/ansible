@@ -1,6 +1,8 @@
-PidFile=/run/zabbix/zabbix_agentd.pid
+PidFile=/var/run/zabbix/zabbix_agentd.pid
 LogFile=/var/log/zabbix/zabbix_agentd.log
-LogFileSize=0
+LogFileSize=1
+DebugLevel=4
+AllowRoot=1
 Server=34.116.254.243
 ServerActive=34.116.254.243
 Hostname={{ ansible_hostname }}
