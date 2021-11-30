@@ -1,0 +1,14 @@
+port_list:
+      - { port: 53/tcp, state: enabled }
+      - { port: 80/tcp, state: enabled }
+      - { port: 88/tcp, state: enabled }
+      - { port: 135/tcp, state: enabled }
+      - { port: 138/tcp, state: enabled }
+      - { port: 139/tcp, state: enabled }
+      - { port: 389/tcp, state: enabled }
+      - { port: 443/tcp, state: enabled }
+      - { port: 445/tcp, state: enabled }
+      - { port: 464/tcp, state: enabled }
+      - { port: 636/tcp, state: enabled }
+      - { port: 3268/tcp, state: enabled }
+      - { port: 1024-1300/tcp, state: enabled }

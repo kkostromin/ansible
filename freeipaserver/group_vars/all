@@ -1,0 +1,9 @@
+server_alias: dc01
+server_hostname: dc01.mynet.loc
+domain: mynet.loc
+realm: MYNET.LOC
+principal_user: admin
+principal_user_password: ASecretPassword
+directory_manager_password: AnotherSecretPassword
+dns_forwarder_1: 8.8.8.8
+dns_forwarder_2: 8.8.4.4

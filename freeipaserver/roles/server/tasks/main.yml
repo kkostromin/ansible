@@ -1,0 +1,43 @@
+- name: Install the ipa-server
+  yum:
+    name: ipa-server
+    state: present
+
+- name: Install the ipa-server-dns packages
+  yum:    
+    name: ipa-server-dns
+    state: present
+
+- name: Install firewalld
+  yum:
+      name: firewalld
+      state: latest
+  notify:
+       - start firewalld
+
+- name: start firewalld
+  service:
+    name: firewalld
+    state:  started
+    enabled: yes
+    #become: yes
+
+#- name: enable ports
+#  include_vars: port_list.yml
+##  firewalld:
+#    zone: public
+#    port: "{{ item.port }}"
+#    permanent: true
+#    state: "{{ item.state }}"
+#    loop:
+#        "{{ port_list }}"
+#    notify:
+#        - restart_firewalld
+#  become: yes
+
+- name: Reload the firewall configuration
+  command: firewall-cmd --reload
+
+- name: Run the ipa-server-install command
+  command: ipa-server-install -U --setup-dns --hostname={{ inventory_hostname }} --domain={{ domain }} --realm={{ realm }} --ds-password={{ directory_manager_password }} --admin-password={{ principal_user_password }} --forwarder={{ dns_forwarder_1 }} --forwarder={{ dns_forwarder_2 }}
+
