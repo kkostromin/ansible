@@ -1,4 +1,4 @@
 - hosts: ipaservers
   user: root
   roles:
-    - server
+    - replica

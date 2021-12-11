@@ -1,4 +1,10 @@
-*pem
+*.pyc
 *.retry
-group_vars/all.yml
-hosts
+
+# ignore virtual environments
+/.tox/
+/.venv/
+
+tests/logs/
+group_vars/*
+inventory/*

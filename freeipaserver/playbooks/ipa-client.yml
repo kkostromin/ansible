@@ -1,0 +1,5 @@
+- hosts: ipaclients
+  user: root
+  become: true
+  roles:
+    - ipaclient

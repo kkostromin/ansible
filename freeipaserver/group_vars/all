@@ -2,8 +2,18 @@ server_alias: dc01
 server_hostname: dc01.mynet.loc
 domain: mynet.loc
 realm: MYNET.LOC
-principal_user: admin
-principal_user_password: ASecretPassword
+principal_user: adminASecretPassword
+principal_user_password: 
 directory_manager_password: AnotherSecretPassword
 dns_forwarder_1: 8.8.8.8
 dns_forwarder_2: 8.8.4.4
+
+# ipaclient
+ipaclient_domain: mynet.loc
+ipaclient_realm: MYNET.LOC
+ipaclient_extraargs: [ '--kinit-attempts=3', '--mkhomedir']
+# To enroll the IPAclient, the module needs either a host keytab from a previous enrollment,
+# or a principal + password, or a One-Time Password
+# If you wish to use principal + password, you need to provide ipaclient_principal and ipaclient_password:
+ipaclient_principal: admin
+ipaclient_password: MySecretPassword123
