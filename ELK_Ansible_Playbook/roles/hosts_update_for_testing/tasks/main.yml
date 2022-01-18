@@ -1,0 +1,19 @@
+---
+- name: Include variables
+  include_vars:
+    file: ../../vars.yml
+
+- name: Add /etc/hosts details
+  become: yes
+  blockinfile:
+    path: /etc/hosts
+    marker: ''
+    block: |
+      {{ item.ip }} {{ item.name }}
+  loop:
+    - { name: elk-01, ip: 10.186.0.2 }
+    - { name: elk-02, ip: 10.166.0.3 }
+    - { name: elk-03, ip: 10.186.0.6 }
+    - { name: elk-04, ip: 10.186.0.4 }
+    - { name: elk-05, ip: 10.186.0.5 }
+

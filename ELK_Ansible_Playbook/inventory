@@ -1,0 +1,27 @@
+[all:children]
+elastic
+kibana
+logstash
+
+#[all:vars]
+#ansible_ssh_user=vagrant
+#ansible_ssh_private_key_file=/.vagrant.d/insecure_private_key
+#ansible_ssh_port=22
+
+[elastic:children]
+elastic_master
+elastic_datanode
+
+[elastic_master]
+elk-01 ansible_ssh_host=34.118.125.243 ansible_user=root
+
+[elastic_datanode]
+elk-02 ansible_ssh_host=35.217.30.127 ansible_user=root
+elk-03 ansible_ssh_host=34.116.213.106 ansible_user=root
+
+
+[kibana]
+elk-04 ansible_ssh_host=34.118.127.169 ansible_user=root
+
+[logstash]
+elk-05 ansible_ssh_host=34.118.69.163 ansible_user=root
